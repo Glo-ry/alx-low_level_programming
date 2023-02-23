@@ -1,1 +1,1 @@
-More funstions ansd more nested loops in c language learnt during alx training
+More functions, more nested loops in c learnt during alx trainig
