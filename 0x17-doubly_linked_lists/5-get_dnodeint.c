@@ -6,18 +6,21 @@
  * @head: pointer to the beginning of the list
  * @index: index of the node to retrieve
  *
- * Return: Null if the node does not exist
+ * Return: NULL if the node does not exist, return
  */
 dlistint_t *get_dnodeint_at_index(dlistint_t *head, unsigned int index)
 {
-	unsigned int i = 0;
-	dlistint_t *current = head;
+	unsigned int g;
 
-	while (current != NULL && i < index)
+	if (head == NULL)
+		return (NULL);
+	if (index == 0)
+		return (head);
+	for (g = 0; g < index; g++)
 	{
-		current = current->next;
-		i++;
+		if (head->next == NULL)
+			return (NULL);
+		head = head->next;
 	}
-
-	return current;
+	return (head);
 }
