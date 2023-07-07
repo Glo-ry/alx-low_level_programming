@@ -1,26 +1,33 @@
 #include "hash_tables.h"
 
 /**
- * a function that creates a hash table.
- * @size: Array
+ * hash_table_delete - free hash table and all nodes
+ * @ht: pointer to hash table
  *
- * Return: Null, if something goes wrong
  */
-hash_table_t *hash_table_create(unsigned long int size)
+
+void hash_table_delete(hash_table_t *ht)
 {
-	hash_table_t *ht;
-	unsigned long int l;
+	hash_node_t *bucket, *aux_free;
+	unsigned long int i = 0;
 
-	ht = malloc(sizeof(hash_table_t));
-	if (ht == NULL)
-		return (NULL);
+	if (!ht)
+		return;
 
-	ht->size = size;
-	ht->array = malloc(sizeof(hash_node_t *) * size);
-	if (ht->array == NULL)
-		return (NULL);
-	for (l = 0; l < size; l++)
-		ht->array[i] = NULL;
-
-	return (ht);
+	for (i = 0; i < ht->size; i++)
+	{
+		bucket = ht->array[i];
+		while (bucket)
+		{
+			aux_free = bucket;
+			bucket = bucket->next;
+			if (aux_free->key)
+				free(aux_free->key);
+			if (aux_free->value)
+				free(aux_free->value);
+			free(aux_free);
+		}
+	}
+	free(ht->array);
+	free(ht);
 }
