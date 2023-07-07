@@ -1,33 +1,29 @@
 #include "hash_tables.h"
 
 /**
- * hash_table_delete - free hash table and all nodes
- * @ht: pointer to hash table
+ * hash_table_create - creates a hash table
+ * @size: size of the hash table
  *
+ * Return: pointer to hash table
  */
 
-void hash_table_delete(hash_table_t *ht)
+hash_table_t *hash_table_create(unsigned long int size)
 {
-	hash_node_t *bucket, *aux_free;
-	unsigned long int i = 0;
+	hash_table_t *table;
 
-	if (!ht)
-		return;
+	if (size == 0)
+		return (NULL);
 
-	for (i = 0; i < ht->size; i++)
+	table = calloc(1, sizeof(hash_table_t));
+	if (table == NULL)
+		return (NULL);
+
+	table->size = size;
+	table->array = calloc(size, sizeof(hash_node_t *));
+	if (table->array == NULL)
 	{
-		bucket = ht->array[i];
-		while (bucket)
-		{
-			aux_free = bucket;
-			bucket = bucket->next;
-			if (aux_free->key)
-				free(aux_free->key);
-			if (aux_free->value)
-				free(aux_free->value);
-			free(aux_free);
-		}
+		free(table);
+		return (NULL);
 	}
-	free(ht->array);
-	free(ht);
+	return (table);
 }
